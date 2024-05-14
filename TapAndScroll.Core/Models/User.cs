@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using TapAndScroll.Core.Attributes;
 
 namespace TapAndScroll.Core.Models
 {
@@ -9,19 +11,40 @@ namespace TapAndScroll.Core.Models
         public int IdUser { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(64)]
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(64)]
         public string Email { get; set; }
+
         [Required]
         [StringLength(32)]
         public string HashPassword { get; set; }
 
+        [Column(TypeName = "decimal(12, 2)")]
+        public decimal Money { get; set; }
+
+        [Column(TypeName = "decimal(12, 2)")]
+        public decimal Bonus { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsConfirm { get; set; }
+
+        [StringLength(32)]
+        public string ConfirmToken { get; set; }
+
+        [DefaultValue(1)]
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
+        public ICollection<Order> Orders { get; set; }
 
+        public ICollection<Favorites> Favorites { get; set; }
+
+        public ICollection<Basket> Baskets { get; set; }
+        public ICollection<BasketProduct> BasketProducts { get; set; }
+
+        public ICollection<Feedback> Feedbacks { get; set; }
     }
 }

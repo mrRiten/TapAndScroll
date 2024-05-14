@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="RepositoryContracts\" />
-    <Folder Include="ServiceContracts\" />
-    <Folder Include="HelperContracts\" />
+    <ProjectReference Include="..\TapAndScroll.Core\TapAndScroll.Core.csproj" />
   </ItemGroup>
 
 </Project>

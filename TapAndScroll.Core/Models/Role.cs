@@ -8,7 +8,9 @@ namespace TapAndScroll.Core.Models
         public int IdRole { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(32)]
         public string RoleName { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }
