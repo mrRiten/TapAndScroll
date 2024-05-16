@@ -10,6 +10,7 @@ using TapAndScroll.Core.Models;
 using TapAndScroll.Infrastructure.Helpers;
 using TapAndScroll.Infrastructure.Repositories;
 using TapAndScroll.Infrastructure.Services;
+using TapAndScroll.Web.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,16 +32,23 @@ builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
 builder.Services.AddScoped<IEmailService, EmailFakeService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
+            ValidateIssuer = true,
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"])),
+            ValidIssuer = builder.Configuration["JwtOptions:Issuer"]
         };
 
         options.Events = new JwtBearerEvents
@@ -50,10 +58,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 context.Token = context.Request.Cookies["tasty-cookies"];
 
                 return Task.CompletedTask;
-            }
+            },
+
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/Authorize/Login");
+                return Task.CompletedTask;
+            },
         };
 
     });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,6 +87,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRedirectUnauthorized();
 
 app.MapControllerRoute(
     name: "default",

@@ -7,6 +7,7 @@ namespace TapAndScroll.Core.UploadModels
     {
         [Required]
         [StringLength(64)]
+        [UniqueUserName]
         public string UserName { get; set; }
 
         [Required]

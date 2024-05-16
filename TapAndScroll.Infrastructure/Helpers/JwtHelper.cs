@@ -23,6 +23,7 @@ namespace TapAndScroll.Infrastructure.Helpers
             var token = new JwtSecurityToken(
                 claims: claims,
                 signingCredentials: signingCredentials,
+                issuer: _options.Issuer,
                 expires: DateTime.Now.AddHours(_options.ExpiatesHours));
 
             return new JwtSecurityTokenHandler().WriteToken(token);
