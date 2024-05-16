@@ -13,14 +13,17 @@
                 <form asp-controller="Authorize" asp-action="Register" method="post">
                     <div class="mb-3">
                         <label asp-for="UserName" class="form-label">Имя пользователя</label>
+                        <span asp-validation-for="UserName"></span>
                         <input asp-for="UserName" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Пароль</label>
+                        <span asp-validation-for="Password"></span>
                         <input asp-for="Password" type="password" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label">Email</label>
+                        <span asp-validation-for="Email"></span>
                         <input asp-for="Email" type="email" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>

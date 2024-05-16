@@ -3,6 +3,7 @@ using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
+using BCrypt.Net;
 
 namespace TapAndScroll.Infrastructure.Services
 {
@@ -10,6 +11,11 @@ namespace TapAndScroll.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IConfirmHelper _confirmHelper = confirmHelper;
+
+        public Task AuthorizeAsync(string userLogin, string password)
+        {
+            
+        }
 
         public async Task ConfirmAsync(int userId, string token)
         {
@@ -26,10 +32,13 @@ namespace TapAndScroll.Infrastructure.Services
 
         public async Task<User> RegisterAsync(UploadRegisterUser model)
         {
+            
+            var hashPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
             var user = new User
             {
                 UserName = model.UserName,
-                HashPassword = model.Password,
+                HashPassword = hashPassword,
                 Email = model.Email,
                 RoleId = 1,
                 ConfirmToken = _confirmHelper.GenerateTokenAsync(),
@@ -38,13 +47,6 @@ namespace TapAndScroll.Infrastructure.Services
             await _userRepository.CreateUserAsync(user);
 
             return user;
-        }
-
-        public async Task<bool> ValidateAsync(UploadRegisterUser model)
-        {
-            var user = await _userRepository.GetUserByEmailAsync(model.Email);
-            if (user == null) { return true;}
-            return false;
         }
     }
 }
