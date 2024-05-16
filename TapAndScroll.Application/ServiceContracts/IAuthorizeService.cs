@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using TapAndScroll.Core.Models;
+﻿using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
 
 namespace TapAndScroll.Application.ServiceContracts
@@ -7,7 +6,8 @@ namespace TapAndScroll.Application.ServiceContracts
     public interface IAuthorizeService
     {
         public Task<User> RegisterAsync(UploadRegisterUser model);
-        public Task<bool> ValidateAsync(UploadRegisterUser model);
         public Task ConfirmAsync(int userId, string token);
+
+        public Task AuthorizeAsync(string userLogin, string password);
     }
 }

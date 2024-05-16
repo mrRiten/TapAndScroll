@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TapAndScroll.Core.Attributes;
 
 namespace TapAndScroll.Core.Models
 {
@@ -19,7 +18,7 @@ namespace TapAndScroll.Core.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(32)]
+        [StringLength(60)]
         public string HashPassword { get; set; }
 
         [Column(TypeName = "decimal(12, 2)")]
