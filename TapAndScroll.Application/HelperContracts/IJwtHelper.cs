@@ -1,9 +1,9 @@
-﻿using TapAndScroll.Core.UploadModels;
+﻿using TapAndScroll.Core.Models;
 
 namespace TapAndScroll.Application.HelperContracts
 {
     public interface IJwtHelper
     {
-        public string GenerateJwtToken(UploadAuthorizeModel model);
+        public string GenerateJwtToken(User model);
     }
 }

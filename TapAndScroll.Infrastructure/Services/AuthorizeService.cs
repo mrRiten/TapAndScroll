@@ -3,24 +3,31 @@ using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
-using BCrypt.Net;
 
 namespace TapAndScroll.Infrastructure.Services
 {
-    public class AuthorizeService(IUserRepository userRepository, IConfirmHelper confirmHelper) : IAuthorizeService
+    public class AuthorizeService(IUserRepository userRepository, IConfirmHelper confirmHelper,
+        IJwtHelper jwtHelper) : IAuthorizeService
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IConfirmHelper _confirmHelper = confirmHelper;
+        private readonly IJwtHelper _jwtHelper = jwtHelper;
 
-        public Task AuthorizeAsync(string userLogin, string password)
+        public async Task<string> AuthorizeAsync(UploadAuthorizeModel model)
         {
-            
+            var user = await _userRepository.GetUserByLoginAsync(model.Login);
+
+            var result = BCrypt.Net.BCrypt.Verify(model.Password, user.HashPassword);
+            if (result == false) { return string.Empty; }
+
+            var token = _jwtHelper.GenerateJwtToken(user);
+            return token;
         }
 
         public async Task ConfirmAsync(int userId, string token)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
-            
+
             if (user == null) { return; }
 
             if (user.ConfirmToken == token)
@@ -32,7 +39,7 @@ namespace TapAndScroll.Infrastructure.Services
 
         public async Task<User> RegisterAsync(UploadRegisterUser model)
         {
-            
+
             var hashPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
             var user = new User

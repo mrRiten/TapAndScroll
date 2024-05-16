@@ -6,6 +6,7 @@ using TapAndScroll.Application.HelperContracts;
 using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core;
+using TapAndScroll.Core.Models;
 using TapAndScroll.Infrastructure.Helpers;
 using TapAndScroll.Infrastructure.Repositories;
 using TapAndScroll.Infrastructure.Services;
@@ -22,24 +23,36 @@ builder.Services.AddDbContext<TapAndScrollDbContext>(options =>
         b => b.MigrationsAssembly("TapAndScroll.Web")),
         ServiceLifetime.Scoped);
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
 builder.Services.AddScoped<IEmailService, EmailFakeService>();
+builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["JwtAuth:Issuer"],
-            ValidAudience = builder.Configuration["JwtAuth:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuth:Issuer"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:SecretKey"]))
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["tasty-cookies"];
+
+                return Task.CompletedTask;
+            }
+        };
+
     });
 var app = builder.Build();
 
@@ -56,6 +69,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

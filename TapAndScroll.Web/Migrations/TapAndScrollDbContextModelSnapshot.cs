@@ -332,8 +332,7 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Property<string>("HashPassword")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");

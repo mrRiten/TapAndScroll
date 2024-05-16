@@ -12,8 +12,8 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    [Migration("20240516052847_Pas")]
-    partial class Pas
+    [Migration("20240516204105_PasswordNew")]
+    partial class PasswordNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -335,8 +335,7 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Property<string>("HashPassword")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");

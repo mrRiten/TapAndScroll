@@ -4,12 +4,26 @@ using TapAndScroll.Core.UploadModels;
 
 namespace TapAndScroll.Web.Controllers
 {
-    public class AuthorizeController(IAuthorizeService authorizeService, ILogger<AuthorizeController> logger,
-        IEmailService emailService) : Controller
+    public class AuthorizeController(IAuthorizeService authorizeService, IEmailService emailService) : Controller
     {
         private readonly IAuthorizeService _authorizeService = authorizeService;
-        private readonly ILogger<AuthorizeController> _logger = logger;
         private readonly IEmailService _emailService = emailService;
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UploadAuthorizeModel model)
+        {
+            var token = await _authorizeService.AuthorizeAsync(model);
+
+            HttpContext.Response.Cookies.Append("tasty-cookies", token);
+
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Register()

@@ -5,7 +5,7 @@
 namespace TapAndScroll.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class Pas : Migration
+    public partial class PasswordNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,12 +13,11 @@ namespace TapAndScroll.Web.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "HashPassword",
                 table: "Users",
-                type: "nvarchar(60)",
-                maxLength: 60,
+                type: "nvarchar(max)",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(32)",
-                oldMaxLength: 32);
+                oldType: "nvarchar(60)",
+                oldMaxLength: 60);
         }
 
         /// <inheritdoc />
@@ -27,12 +26,11 @@ namespace TapAndScroll.Web.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "HashPassword",
                 table: "Users",
-                type: "nvarchar(32)",
-                maxLength: 32,
+                type: "nvarchar(60)",
+                maxLength: 60,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(60)",
-                oldMaxLength: 60);
+                oldType: "nvarchar(max)");
         }
     }
 }

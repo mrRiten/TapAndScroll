@@ -18,7 +18,6 @@ namespace TapAndScroll.Core.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(60)]
         public string HashPassword { get; set; }
 
         [Column(TypeName = "decimal(12, 2)")]

@@ -8,6 +8,6 @@ namespace TapAndScroll.Application.ServiceContracts
         public Task<User> RegisterAsync(UploadRegisterUser model);
         public Task ConfirmAsync(int userId, string token);
 
-        public Task AuthorizeAsync(string userLogin, string password);
+        public Task<string> AuthorizeAsync(UploadAuthorizeModel model);
     }
 }
