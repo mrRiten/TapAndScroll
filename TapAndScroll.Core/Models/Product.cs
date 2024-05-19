@@ -35,6 +35,8 @@ namespace TapAndScroll.Core.Models
 
         public float DiscountPercent { get; set; }
 
+        public int Page { get; set; }
+
         public string AdditionalParameters { get; set; }
         
         public ICollection<ImgProduct> Products { get; set; }
