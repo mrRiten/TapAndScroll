@@ -37,5 +37,53 @@ namespace TapAndScroll.Infrastructure.Repositories
 
             return products;
         }
+
+        public async Task<ICollection<Product>> GetAllAsync()
+        {
+            return await _context.Products
+                .ToListAsync();
+        }
+
+        public async Task CreateAsync(Product product)
+        {
+            await _context.Products
+                .AddAsync(product);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Product product)
+        {
+            _context.Products
+               .Update(product);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int productId)
+        {
+            var targetProduct = await _context.Products
+                .FindAsync(productId);
+
+            if (targetProduct == null) { return; }
+
+            _context.Products
+                .Remove(targetProduct);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> GetCountProductOnPage(int pageId)
+        {
+            var product = await _context.Products
+                .OrderBy(p => p.IdProduct)
+                .LastOrDefaultAsync();
+
+            var products = await _context.Products
+                .Where(p => p.Page == product.Page)
+                .ToListAsync();
+
+            return products.Count;
+        }
     }
 }

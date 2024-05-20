@@ -8,7 +8,7 @@ namespace TapAndScroll.Infrastructure.Services
     {
         public Task CreateProductAsync(UploadProduct model)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task DeleteProductAsync(int id)

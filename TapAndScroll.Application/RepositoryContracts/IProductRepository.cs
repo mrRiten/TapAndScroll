@@ -10,6 +10,8 @@ namespace TapAndScroll.Application.RepositoryContracts
         public Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId, int page);
         public Task<ICollection<Product>> GetProductsByProperty(Product product);
 
+        public Task<int> GetCountProductOnPage(int pageId);
+
         public Task CreateAsync(Product product);
         public Task UpdateAsync(Product product);
         public Task DeleteAsync(int productId);

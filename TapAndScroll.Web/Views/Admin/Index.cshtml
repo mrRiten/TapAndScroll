@@ -1,5 +1,43 @@
-﻿
-@{
+﻿@{
 }
 
-<h1>It`s a main page of Admin-Panel</h1>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark admin-navbar">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="adminNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Категории
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="#">Посмотреть все</a></li>
+                            <li><a class="dropdown-item" href="#">Изменить</a></li>
+                            <li><a class="dropdown-item" href="#">Добавить</a></li>
+                            <li><a class="dropdown-item" href="#">Удалить</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Товары
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                            <li><a class="dropdown-item" href="#">Посмотреть все</a></li>
+                            <li><a class="dropdown-item" href="#">Изменить</a></li>
+                            <li><a class="dropdown-item" href="#">Добавить</a></li>
+                            <li><a class="dropdown-item" href="#">Удалить</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container admin-content">
+    <h2 class="text-white">Добро пожаловать в Админ Панель</h2>
+    <p class="text-white">Здесь вы можете управлять категориями и товарами вашего магазина.</p>
+</div>
