@@ -32,7 +32,10 @@ namespace TapAndScroll.Infrastructure.Repositories
         public async Task<ICollection<Product>> GetProductsByProperty(Product product)
         {
             var products = await _context.Products
-                .FirstOrDefaultAsync(p => p.Brand == product.Brand );
+                .Where(p => p.Brand == product.Brand )
+                .ToListAsync();
+
+            return products;
         }
     }
 }

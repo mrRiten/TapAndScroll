@@ -14,7 +14,8 @@ namespace TapAndScroll.Infrastructure.Helpers
 
         public string GenerateJwtToken(User model)
         {
-            Claim[] claims = [new("userId", model.IdUser.ToString())];
+            Claim[] claims = [new("userId", model.IdUser.ToString()),
+                new Claim(ClaimTypes.Role, model.Role.RoleName)];
 
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),

@@ -29,6 +29,7 @@ namespace TapAndScroll.Infrastructure.Repositories
         public async Task<User?> GetUserByLoginAsync(string login)
         {
             return await _context.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == login || u.UserName == login);
         }
 

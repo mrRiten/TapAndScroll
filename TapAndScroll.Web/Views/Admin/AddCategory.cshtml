@@ -1,0 +1,31 @@
+﻿@{
+}
+
+@model TapAndScroll.Core.UploadModels.UploadCategory;
+
+<link rel="stylesheet" href="~/css/Category.css" asp-append-version="true" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="category-form">
+                <h2>Создать категорию</h2>
+                <form asp-controller="Admin" asp-action="AddCategory" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Название категории</label>
+                        <input asp-for="Name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Описание категории</label>
+                        <textarea asp-for="Description" class="form-control" rows="2" placeholder="Введите описание категории" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="AdditionalParameters" class="form-label">Специальные параметры</label>
+                        <textarea asp-for="AdditionalParameters" class="form-control"  rows="4" placeholder="Введите параметры, разделяя их запятыми" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

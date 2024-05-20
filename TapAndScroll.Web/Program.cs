@@ -27,6 +27,8 @@ builder.Services.AddDbContext<TapAndScrollDbContext>(options =>
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
 builder.Services.AddScoped<IEmailService, EmailFakeService>();

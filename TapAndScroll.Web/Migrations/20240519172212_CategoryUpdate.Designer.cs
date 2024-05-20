@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapAndScroll.Core;
 
@@ -11,9 +12,11 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    partial class TapAndScrollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240519172212_CategoryUpdate")]
+    partial class CategoryUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,7 @@ namespace TapAndScroll.Web.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"));
 
                     b.Property<string>("AdditionalParameters")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryDescription")
