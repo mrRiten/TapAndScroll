@@ -29,7 +29,7 @@ namespace TapAndScroll.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.ProductName == name);
         }
 
-        public async Task<ICollection<Product>> GetProductsByProperty(Product product)
+        public async Task<ICollection<Product>> GetProductsByPropertyAsync(Product product)
         {
             var products = await _context.Products
                 .Where(p => p.Brand == product.Brand )
@@ -73,17 +73,22 @@ namespace TapAndScroll.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> GetCountProductOnPage(int pageId)
+        public async Task<int> GetCountProductOnPageAsync()
         {
-            var product = await _context.Products
-                .OrderBy(p => p.IdProduct)
-                .LastOrDefaultAsync();
+            var product = await GetLastProductAsync();
 
             var products = await _context.Products
                 .Where(p => p.Page == product.Page)
                 .ToListAsync();
 
             return products.Count;
+        }
+
+        public async Task<Product?> GetLastProductAsync()
+        {
+            return await _context.Products
+                .OrderByDescending(p => p.IdProduct)
+                .FirstOrDefaultAsync();
         }
     }
 }

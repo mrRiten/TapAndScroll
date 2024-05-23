@@ -9,12 +9,16 @@ namespace TapAndScroll.Infrastructure.Repositories
     {
         private readonly TapAndScrollDbContext _context = context;
 
-        public async Task CreateAsync(Category category)
+        public async Task<Category?> CreateAsync(Category category)
         {
             await _context.Categories
                 .AddAsync(category);
             
             await _context.SaveChangesAsync();
+
+            return await _context.Categories
+                .OrderByDescending(c => c.IdCategory)
+                .FirstOrDefaultAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -38,7 +42,8 @@ namespace TapAndScroll.Infrastructure.Repositories
         public async Task<Category?> GetByIdAsync(int id)
         {
             return await _context.Categories
-                .FindAsync(id);
+                .Include(c => c.AdditionalParametersCategory)
+                .FirstOrDefaultAsync(c => c.IdCategory == id);
         }
 
         public async Task<Category?> GetByNameAsync(string name)

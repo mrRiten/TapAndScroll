@@ -1,6 +1,8 @@
 ﻿@{
 }
 
+@model TapAndScroll.Core.ViewModels.ListCategory;
+
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-dark admin-navbar">
         <div class="container-fluid">
@@ -16,7 +18,7 @@
                         <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
                             <li><a class="dropdown-item" href="#">Посмотреть все</a></li>
                             <li><a class="dropdown-item" href="#">Изменить</a></li>
-                            <li><a class="dropdown-item" href="#">Добавить</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("AddCategory", "Admin")">Добавить</a></li>
                             <li><a class="dropdown-item" href="#">Удалить</a></li>
                         </ul>
                     </li>
@@ -27,7 +29,15 @@
                         <ul class="dropdown-menu" aria-labelledby="productsDropdown">
                             <li><a class="dropdown-item" href="#">Посмотреть все</a></li>
                             <li><a class="dropdown-item" href="#">Изменить</a></li>
-                            <li><a class="dropdown-item" href="#">Добавить</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Добавить</a>
+                                <ul class="dropdown-menu">
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("AddProductForm", "Admin", new {categoryId = category.IdCategory})">@category.CategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
                             <li><a class="dropdown-item" href="#">Удалить</a></li>
                         </ul>
                     </li>
@@ -41,3 +51,26 @@
     <h2 class="text-white">Добро пожаловать в Админ Панель</h2>
     <p class="text-white">Здесь вы можете управлять категориями и товарами вашего магазина.</p>
 </div>
+
+<script>
+    // Enable hover dropdowns for the admin navbar
+    document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            if (!this.nextElementSibling.classList.contains('show')) {
+                this.closest('.dropdown-menu').querySelectorAll('.dropdown-menu').forEach(function (menu) {
+                    menu.classList.remove('show');
+                });
+            }
+            this.nextElementSibling.classList.toggle('show');
+            e.stopPropagation();
+        });
+    });
+
+    document.querySelectorAll('.dropdown').forEach(function (element) {
+        element.addEventListener('hidden.bs.dropdown', function () {
+            this.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+                menu.classList.remove('show');
+            });
+        });
+    });
+</script>

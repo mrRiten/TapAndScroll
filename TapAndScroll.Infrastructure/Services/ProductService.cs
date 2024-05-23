@@ -1,14 +1,44 @@
-﻿using TapAndScroll.Application.ServiceContracts;
+﻿using TapAndScroll.Application.RepositoryContracts;
+using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
 
 namespace TapAndScroll.Infrastructure.Services
 {
-    public class ProductService : IProductService
+    public class ProductService(IProductRepository productRepository) : IProductService
     {
-        public Task CreateProductAsync(UploadProduct model)
+        private readonly IProductRepository _productRepository = productRepository;
+
+        public async Task<Product> CreateProductAsync(UploadProduct model)
         {
-            
+            var countProductOnLastPage = await _productRepository.GetCountProductOnPageAsync();
+            int page;
+
+            if (countProductOnLastPage >= 10)
+            {
+                page = 0;
+            }
+            else
+            {
+                page = countProductOnLastPage+1;
+            }
+
+            var product = new Product
+            {
+                Brand = model.Brand,
+                ProductName = model.ProductName,
+                Price = model.Price,
+                IsGaming = model.IsGaming,
+                CategoryId = model.CategoryId,
+                Description = model.Description,
+                DiscountPercent = model.DiscountPercent,
+                Page = page,
+                AdditionalParameters = model.AdditionalParameters,
+            };
+
+            await _productRepository.CreateAsync(product);
+
+            return await _productRepository.GetLastProductAsync();
         }
 
         public Task DeleteProductAsync(int id)
