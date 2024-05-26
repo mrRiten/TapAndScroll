@@ -34,7 +34,7 @@
                                 <ul class="dropdown-menu">
                                     @foreach (var category in Model.Categories)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("AddProductForm", "Admin", new {categoryId = category.IdCategory})">@category.CategoryName</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("AddProduct", "Admin", new {categoryId = category.IdCategory})">@category.CategoryName</a></li>
                                     }
                                 </ul>
                             </li>

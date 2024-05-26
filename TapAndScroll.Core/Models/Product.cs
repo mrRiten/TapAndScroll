@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TapAndScroll.Core.Models
 {
@@ -38,6 +39,13 @@ namespace TapAndScroll.Core.Models
         public int Page { get; set; }
 
         public string AdditionalParameters { get; set; }
+
+        [NotMapped]
+        public Dictionary<string, string> Parameters
+        {
+            get => string.IsNullOrEmpty(AdditionalParameters) ? [] : JsonConvert.DeserializeObject<Dictionary<string, string>>(AdditionalParameters);
+            set => AdditionalParameters = JsonConvert.SerializeObject(value, Formatting.Indented);
+        }
         
         public ICollection<ImgProduct> Products { get; set; }
 

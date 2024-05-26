@@ -1,13 +1,15 @@
-﻿using TapAndScroll.Application.RepositoryContracts;
+﻿using TapAndScroll.Application.HelperContracts;
+using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
 
 namespace TapAndScroll.Infrastructure.Services
 {
-    public class ProductService(IProductRepository productRepository) : IProductService
+    public class ProductService(IProductRepository productRepository, ISerializeParametersHelper parametersHelper) : IProductService
     {
         private readonly IProductRepository _productRepository = productRepository;
+        private readonly ISerializeParametersHelper _parametersHelper = parametersHelper;
 
         public async Task<Product> CreateProductAsync(UploadProduct model)
         {
@@ -33,7 +35,7 @@ namespace TapAndScroll.Infrastructure.Services
                 Description = model.Description,
                 DiscountPercent = model.DiscountPercent,
                 Page = page,
-                AdditionalParameters = model.AdditionalParameters,
+                Parameters = _parametersHelper.Serialize(model.AdditionalParameters)
             };
 
             await _productRepository.CreateAsync(product);

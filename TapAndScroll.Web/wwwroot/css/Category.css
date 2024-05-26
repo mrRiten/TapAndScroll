@@ -42,3 +42,8 @@
 label {
     color: #fff; /* Белый цвет текста метки */
 }
+
+
+radio-btn {
+    border-color: rgb(32, 175, 109);
+}

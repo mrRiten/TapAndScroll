@@ -37,6 +37,7 @@ builder.Services.AddScoped<IEmailService, EmailFakeService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IImageProductService, ImageProductService>();
 builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
+builder.Services.AddScoped<ISerializeParametersHelper, SerializeParametersHelper>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
 builder.Services.AddAuthentication(options =>

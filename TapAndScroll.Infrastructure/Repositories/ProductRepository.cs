@@ -77,6 +77,8 @@ namespace TapAndScroll.Infrastructure.Repositories
         {
             var product = await GetLastProductAsync();
 
+            if (product == null) { return 0; }
+
             var products = await _context.Products
                 .Where(p => p.Page == product.Page)
                 .ToListAsync();

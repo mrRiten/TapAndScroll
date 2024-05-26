@@ -10,7 +10,7 @@
         <div class="col-md-6">
             <div class="category-form">
                 <h2>Создать Товар</h2>
-                <form asp-controller="Admin" asp-action="AddProduct" method="post">
+                <form id="productForm" asp-controller="Admin" asp-action="AddProduct" method="post" enctype="multipart/form-data">
                     <input hidden="hidden" value="@Model.TargetCategory.IdCategory"/>
                     <div class="mb-3">
                         <label asp-for="@Model.UploadProduct.ProductName" class="form-label">Название Товара</label>
@@ -26,22 +26,24 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.UploadProduct.IsGaming" class="form-label">Игровой?</label>
-                        <input asp-for="@Model.UploadProduct.IsGaming" class="form-control" required>
+                        <input asp-for="@Model.UploadProduct.IsGaming" class="form-check-input radio-btn" required>
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.UploadProduct.DiscountPercent" class="form-label">Скидка на товар в процентах</label>
-                        <input asp-for="@Model.UploadProduct.DiscountPercent" class="form-control" required>
+                        <input asp-for="@Model.UploadProduct.DiscountPercent" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.UploadProduct.Description" class="form-label">Описание Товара</label>
                         <textarea asp-for="@Model.UploadProduct.Description" class="form-control" rows="2" placeholder="Введите описание Товара" required></textarea>
                     </div>
 
+                    <input id="Parameters" asp-for="@Model.UploadProduct.AdditionalParameters" hidden="hidden"/>
+
                     @foreach (var parameter in Model.TargetCategory.AdditionalParametersCategory)
                     {
                         <div class="mb-3">
-                            <label fof="@parameter.SlugParameters" class="form-label">@parameter.NameParameters</label>
-                            <textarea for="@parameter.SlugParameters" class="form-control" rows="2" placeholder="Введите @parameter.NameParameters" required></textarea>
+                            <label for="@parameter.SlugParameters" class="form-label">@parameter.NameParameters</label>
+                            <textarea name="@parameter.SlugParameters" class="form-control product" rows="2" placeholder="Введите @parameter.NameParameters" required></textarea>
                         </div>
                     }
 
@@ -56,3 +58,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("productForm").onsubmit = function () {
+        var productList = document.getElementsByClassName("product");
+        var parameters = document.getElementById("Parameters");
+        Array.from(productList).forEach(element => {
+            parameters.value += `${element.name}:${element.value},`
+        });
+    }
+</script>
