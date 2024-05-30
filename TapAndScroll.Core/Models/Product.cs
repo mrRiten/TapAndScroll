@@ -11,18 +11,7 @@ namespace TapAndScroll.Core.Models
 
         [Required]
         [StringLength(128)]
-        public string Brand { get; set; }
-
-        [Required]
-        [StringLength(128)]
         public string ProductName { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(12, 2)")]
-        public decimal Price { get; set; }
-
-        [Required]
-        public bool IsGaming { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
@@ -31,10 +20,6 @@ namespace TapAndScroll.Core.Models
         [Required]
         [StringLength(1024)]
         public string Description { get; set; }
-
-        public float? Rating { get; set; }
-
-        public float DiscountPercent { get; set; }
 
         public int Page { get; set; }
         

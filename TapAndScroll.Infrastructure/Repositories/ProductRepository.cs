@@ -23,24 +23,19 @@ namespace TapAndScroll.Infrastructure.Repositories
                 .FindAsync(productId);
         }
 
-        public async Task<Product?> GetProductByNameAsync(string name)
-        {
-            return await _context.Products
-                .FirstOrDefaultAsync(p => p.ProductName == name);
-        }
-
         public async Task<ICollection<Product>> GetProductsByPropertyAsync(Product product)
         {
             var products = await _context.Products
-                .Where(p => p.Brand == product.Brand )
                 .ToListAsync();
 
             return products;
         }
 
-        public async Task<ICollection<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync(int categoryId)
         {
             return await _context.Products
+                .Include(p => p.Parameters)
+                .Where(p => p.CategoryId == categoryId)
                 .ToListAsync();
         }
 

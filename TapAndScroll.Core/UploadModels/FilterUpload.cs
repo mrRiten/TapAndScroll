@@ -2,11 +2,11 @@
 {
     public class FilterUpload
     {
-        public string? Name { get; set; }
-
         public string? Brand { get; set; }
 
         public decimal? Price {  get; set; }
+
+        public float? DiscountPercent { get; set; }
 
         public bool? IsGaming { get; set; }
 

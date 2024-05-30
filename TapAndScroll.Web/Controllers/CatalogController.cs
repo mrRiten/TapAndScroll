@@ -1,20 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TapAndScroll.Application.ServiceContracts;
+using TapAndScroll.Core.ViewModels;
 
 namespace TapAndScroll.Web.Controllers
 {
-    public class CatalogController : Controller
+    public class CatalogController(ICategoryService categoryService, IProductService productService) : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+        private readonly ICategoryService _categoryService = categoryService;
+        public readonly IProductService _productService = productService;
+
+        [HttpGet("Catalog/{idCategory}")]
+        public async Task<IActionResult> Index(int idCategory)
         {
-            return View();
+            var filterModel = new FilterProduct
+            {
+                Category = await _categoryService.GetCategoryByIdAsync(idCategory)
+            };
+
+            return View(filterModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(int idCategory)
+        public async Task<IActionResult> List(FilterProduct filterModel)
         {
+            filterModel.Products = await _productService.GetProductsByParameters((int)filterModel.FilterUpload.CategoryId, filterModel.FilterUpload);
 
-            return View();
+            return View(filterModel);
         }
     }
 }

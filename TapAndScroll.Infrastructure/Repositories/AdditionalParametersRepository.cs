@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TapAndScroll.Core;
 using TapAndScroll.Core.Models;
+using TapAndScroll.Application.RepositoryContracts;
 
 namespace TapAndScroll.Infrastructure.Repositories
 {

@@ -9,6 +9,8 @@ namespace TapAndScroll.Core.Models
         
         public int CategoryId { get; set; }
 
+        public bool IsRange { get; set; }
+
         public string NameParameters { get; set; }
 
         public string SlugParameters { get; set; }

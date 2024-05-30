@@ -4,6 +4,9 @@ using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
 using TapAndScroll.Infrastructure.Repositories;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace TapAndScroll.Infrastructure.Services
 {
@@ -31,13 +34,9 @@ namespace TapAndScroll.Infrastructure.Services
 
             var product = new Product
             {
-                Brand = model.Brand,
                 ProductName = model.ProductName,
-                Price = model.Price,
-                IsGaming = model.IsGaming,
                 CategoryId = model.CategoryId,
                 Description = model.Description,
-                DiscountPercent = model.DiscountPercent,
                 Page = page,
             };
 
@@ -68,6 +67,54 @@ namespace TapAndScroll.Infrastructure.Services
         public Task<ICollection<Product>> GetProductsAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<Product>> GetProductsByParameters(int categoryId, FilterUpload filter)
+        {
+            var products = await _productRepository.GetAllAsync(categoryId);
+
+            var filterList = _parametersHelper.CreateListParameters(filter.AdditionalParameters, 0);
+
+            foreach (var parameter in filterList)
+            {
+                var middleFilterList = new List<Product>();
+                if (parameter.Value != null)
+                {
+                    var targetKey = parameter.Key;
+                    var targetValue = parameter.Value;
+
+                    if (targetValue.Contains('~'))
+                    {
+                        var beginValue = decimal.Parse(parameter.Value.Split("~")[0]);
+                        var endValue = decimal.Parse(parameter.Value.Split("~")[1]);
+
+                        foreach( var prod in products)
+                        {
+                            var pr = from p in prod.Parameters
+                                     where p.Key == targetKey && decimal.Parse(p.Value) >= beginValue && decimal.Parse(p.Value) <= endValue
+                                     select p;
+
+                            if (pr.Count() > 0) { middleFilterList.Add(await _productRepository.GetProductByIdAsync(prod.IdProduct)); }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var prod in products)
+                        {
+                            var pr = from p in prod.Parameters
+                                     where p.Key == targetKey && p.Value == targetValue
+                                     select p;
+
+                            if (pr.Count() > 0) { middleFilterList.Add(await _productRepository.GetProductByIdAsync(prod.IdProduct)); }
+                        }
+                    }
+                }
+
+                products = middleFilterList;
+            }
+
+            return products;
+
         }
 
         public Task UpdateProductAsync(Product model)

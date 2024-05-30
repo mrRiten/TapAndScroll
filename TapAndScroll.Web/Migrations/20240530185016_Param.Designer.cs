@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapAndScroll.Core;
 
@@ -11,9 +12,11 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    partial class TapAndScrollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240530185016_Param")]
+    partial class Param
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,9 +63,6 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsRange")
-                        .HasColumnType("bit");
 
                     b.Property<string>("NameParameters")
                         .IsRequired()
