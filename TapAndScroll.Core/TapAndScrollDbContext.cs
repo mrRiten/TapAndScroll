@@ -8,6 +8,7 @@ namespace TapAndScroll.Core
         public TapAndScrollDbContext(DbContextOptions<TapAndScrollDbContext> options) : base(options) { }
 
         public DbSet<AdditionalParametersCategory> AdditionalParametersCategory { get; set; }
+        public DbSet<AdditionalParameters> AdditionalParameters { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketProduct> BasketsProduct { get; set;}
         public DbSet<Category> Categories { get; set; }
@@ -22,6 +23,11 @@ namespace TapAndScroll.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AdditionalParameters>()
+                .HasOne(ap => ap.Product)
+                .WithMany(p => p.Parameters)
+                .HasForeignKey(ap => ap.ProductId);
+
 
             modelBuilder.Entity<AdditionalParametersCategory>()
                 .HasOne(apc => apc.Category)

@@ -6,10 +6,10 @@ using SlugGenerator;
 
 namespace TapAndScroll.Infrastructure.Services
 {
-    public class CategoryService(ICategoryRepository categoryRepository, IAdditionalParametersRepository parametersRepository) : ICategoryService
+    public class CategoryService(ICategoryRepository categoryRepository, IAdditionalParametersCategoryRepository parametersRepository) : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
-        private readonly IAdditionalParametersRepository _parametersRepository = parametersRepository;
+        private readonly IAdditionalParametersCategoryRepository _parametersRepository = parametersRepository;
 
         public async Task CreateCategoryAsync(UploadCategory model)
         {

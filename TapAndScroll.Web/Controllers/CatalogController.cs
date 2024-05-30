@@ -4,9 +4,16 @@ namespace TapAndScroll.Web.Controllers
 {
     public class CatalogController : Controller
     {
-        [HttpGet("Catalog/Index/{id?}")]
+        [HttpGet]
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(int idCategory)
+        {
+
             return View();
         }
     }

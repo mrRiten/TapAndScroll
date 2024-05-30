@@ -61,7 +61,7 @@ namespace TapAndScroll.Web.Controllers
             model.UploadProduct.CategoryId = id;
             var newProduct = await _productService.CreateProductAsync(model.UploadProduct);
             await _imageProductService.CreateImageProductAsync(newProduct.IdProduct, model.UploadProduct.ProductImg);
-            ImageSaveWebHelper.SaveImages(id, model.UploadProduct.ProductImg, _webHostEnvironment);
+            ImageSaveWebHelper.SaveImages(newProduct.IdProduct, model.UploadProduct.ProductImg, _webHostEnvironment);
 
             return RedirectToAction("Index", "Admin");
         }
