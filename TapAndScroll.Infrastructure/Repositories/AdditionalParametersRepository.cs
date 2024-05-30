@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Core;
 using TapAndScroll.Core.Models;
 
@@ -9,36 +8,37 @@ namespace TapAndScroll.Infrastructure.Repositories
     {
         private readonly TapAndScrollDbContext _context = context;
 
-        public async Task CreateAsync(AdditionalParametersCategory[] additionalParametersList)
+        public async Task CreateAsync(AdditionalParameters[] additionalParameters)
         {
-            await _context.AdditionalParametersCategory
-                .AddRangeAsync(additionalParametersList);
+            await _context.AdditionalParameters
+                .AddRangeAsync(additionalParameters);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int categoryId)
+        public async Task UpdateAsync(AdditionalParameters[] additionalParameters)
         {
-            var targetList = await GetByCategoryIdAsync(categoryId);
-
-            _context.AdditionalParametersCategory
-                .RemoveRange([.. targetList]);
+            _context.AdditionalParameters
+                .UpdateRange(additionalParameters);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<AdditionalParametersCategory>> GetByCategoryIdAsync(int categoryId)
+        public async Task DeleteAsync(int id)
         {
-            return await _context.AdditionalParametersCategory
-                .Where(apc => apc.CategoryId == categoryId)
+            var targetParameters = _context.AdditionalParameters
+                .Where(ap => ap.ProductId == id);
+
+            _context.AdditionalParameters
+                .RemoveRange(targetParameters);
+        }
+
+        public async Task<ICollection<AdditionalParameters>> GetAll(int categoryId)
+        {
+            return await _context.AdditionalParameters
+                .Where(ap => ap.Product.CategoryId == categoryId)
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(AdditionalParametersCategory additionalParameters)
-        {
-            _context.Update(additionalParameters);
-
-            await _context.SaveChangesAsync();
-        }
     }
 }

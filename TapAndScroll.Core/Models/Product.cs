@@ -37,17 +37,10 @@ namespace TapAndScroll.Core.Models
         public float DiscountPercent { get; set; }
 
         public int Page { get; set; }
-
-        public string AdditionalParameters { get; set; }
-
-        [NotMapped]
-        public Dictionary<string, string> Parameters
-        {
-            get => string.IsNullOrEmpty(AdditionalParameters) ? [] : JsonConvert.DeserializeObject<Dictionary<string, string>>(AdditionalParameters);
-            set => AdditionalParameters = JsonConvert.SerializeObject(value, Formatting.Indented);
-        }
         
         public ICollection<ImgProduct> Products { get; set; }
+
+        public ICollection<AdditionalParameters> Parameters { get; set; }
 
         public ICollection<Favorites> Favorites { get; set; }
 

@@ -30,14 +30,16 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImgRepository, ProductImageRepository>();
+builder.Services.AddScoped<IAdditionalParametersCategoryRepository, AdditionalParametersCategoryRepository>();
 builder.Services.AddScoped<IAdditionalParametersRepository, AdditionalParametersRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 builder.Services.AddScoped<IEmailService, EmailFakeService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IImageProductService, ImageProductService>();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
-builder.Services.AddScoped<ISerializeParametersHelper, SerializeParametersHelper>();
+builder.Services.AddScoped<IParametersHelper, ParametersHelper>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 
 builder.Services.AddAuthentication(options =>

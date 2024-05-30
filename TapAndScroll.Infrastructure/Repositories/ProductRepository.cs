@@ -44,12 +44,15 @@ namespace TapAndScroll.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task CreateAsync(Product product)
+        public async Task<Product> CreateAsync(Product product)
         {
             await _context.Products
                 .AddAsync(product);
 
             await _context.SaveChangesAsync();
+
+            return await _context.Products
+                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(Product product)

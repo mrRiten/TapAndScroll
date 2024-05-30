@@ -3,13 +3,17 @@ using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
+using TapAndScroll.Infrastructure.Repositories;
 
 namespace TapAndScroll.Infrastructure.Services
 {
-    public class ProductService(IProductRepository productRepository, ISerializeParametersHelper parametersHelper) : IProductService
+    public class ProductService(IProductRepository productRepository,
+        IAdditionalParametersRepository additionalParametersRepository,
+        IParametersHelper parametersHelper) : IProductService
     {
         private readonly IProductRepository _productRepository = productRepository;
-        private readonly ISerializeParametersHelper _parametersHelper = parametersHelper;
+        private readonly IAdditionalParametersRepository _additionalParametersRepository = additionalParametersRepository;
+        private readonly IParametersHelper _parametersHelper = parametersHelper;
 
         public async Task<Product> CreateProductAsync(UploadProduct model)
         {
@@ -35,10 +39,13 @@ namespace TapAndScroll.Infrastructure.Services
                 Description = model.Description,
                 DiscountPercent = model.DiscountPercent,
                 Page = page,
-                Parameters = _parametersHelper.Serialize(model.AdditionalParameters)
             };
 
-            await _productRepository.CreateAsync(product);
+            product = await _productRepository.CreateAsync(product);
+
+            var parameters = _parametersHelper.CreateListParameters(model.AdditionalParameters, product.IdProduct);
+
+            await _additionalParametersRepository.CreateAsync([.. parameters]);
 
             return await _productRepository.GetLastProductAsync();
         }

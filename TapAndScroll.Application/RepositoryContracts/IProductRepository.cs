@@ -13,7 +13,7 @@ namespace TapAndScroll.Application.RepositoryContracts
         public Task<int> GetCountProductOnPageAsync();
         public Task<Product?> GetLastProductAsync();
 
-        public Task CreateAsync(Product product);
+        public Task<Product> CreateAsync(Product product);
         public Task UpdateAsync(Product product);
         public Task DeleteAsync(int productId);
     }
