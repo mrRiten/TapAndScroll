@@ -7,7 +7,7 @@ namespace TapAndScroll.Infrastructure.Helpers
     public class ParametersHelper : IParametersHelper
     {
 
-        public ICollection<AdditionalParameters> CreateListParameters(string input, int productId)
+        public List<AdditionalParameters> CreateListParameters(string input, int productId)
         {
             var parameters = new List<AdditionalParameters>();
 

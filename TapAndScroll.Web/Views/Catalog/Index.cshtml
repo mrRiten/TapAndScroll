@@ -8,28 +8,28 @@
         <div class="col-md-6">
             <div class="category-form">
                 <h2>Создать Товар</h2>
-                <form id="productForm" asp-controller="Catalog" asp-action="List" method="post">
-                    <input asp-for="@Model.FilterUpload.CategoryId" value="@Model.Category.IdCategory" hidden="hidden"/>
+                <form id="filterForm" asp-controller="Catalog" asp-action="List" method="post">
+                    <input asp-for="@Model.FilterUpload.CategoryId" value="@Model.Category.IdCategory" hidden="hidden" />
                     <div class="mb-3">
                         <label asp-for="@Model.FilterUpload.Brand" class="form-label">Название Бренда</label>
-                        <input asp-for="@Model.FilterUpload.Brand" class="form-control product">
+                        <input name="Brand" class="form-control product">
                     </div>
                     <div class="mb-3">
                         <h3>Цена</h3>
                         <label asp-for="@Model.FilterUpload.Price" class="form-label">Цена от</label>
-                        <input asp-for="@Model.FilterUpload.Price" class="form-control product range">
+                        <input name="Price" class="form-control product range">
                         <label asp-for="@Model.FilterUpload.Price" class="form-label">Цена до</label>
-                        <input asp-for="@Model.FilterUpload.Price" class="form-control product range">
+                        <input name="Price" class="form-control product range">
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.FilterUpload.IsGaming" class="form-label">Игровой?</label>
-                        <input asp-for="@Model.FilterUpload.IsGaming" class="form-check-input radio-btn product">
+                        <input name="isGaming" class="form-check-input radio-btn product">
                     </div>
                     <div class="mb-3">
                         <label asp-for="@Model.FilterUpload.DiscountPercent" class="form-label">Скидка на товар в процентах</label>
-                        <input asp-for="@Model.FilterUpload.DiscountPercent" class="form-control product range">
+                        <input name="DiscountPercent" class="form-control product range">
                         <label asp-for="@Model.FilterUpload.DiscountPercent" class="form-label">Скидка на товар в процентах</label>
-                        <input asp-for="@Model.FilterUpload.DiscountPercent" class="form-control product range">
+                        <input name="DiscountPercent" class="form-control product range">
                     </div>
 
                     <input id="Parameters" asp-for="@Model.FilterUpload.AdditionalParameters" hidden="hidden" />
@@ -42,7 +42,7 @@
                             <div class="mb-3">
                                 <label for="@parameter.SlugParameters" class="form-label">@parameter.NameParameters от</label>
                                 <textarea name="@parameter.SlugParameters" class="form-control product range" rows="2" placeholder="Введите @parameter.NameParameters от"></textarea>
-                                <label for="@parameter.SlugParameters" class="form-label">@parameter.NameParameters до</label>
+                                <label for="@parameter.SlugParameters" class="form-label">@parameter.NameParameters до"></label>
                                 <textarea name="@parameter.SlugParameters" class="form-control product range" rows="2" placeholder="Введите @parameter.NameParameters до"></textarea>
                             </div>
                         }
@@ -53,7 +53,6 @@
                                 <textarea name="@parameter.SlugParameters" class="form-control product" rows="2" placeholder="Введите @parameter.NameParameters"></textarea>
                             </div>
                         }
-                        
                     }
 
                     <button type="submit" class="btn btn-primary">Применить</button>
@@ -63,32 +62,31 @@
     </div>
 </div>
 
-@if (Model.Products != null)
-{
-    @foreach (var product in Model.Products)
-    {
-        <p>@product.ProductName</p>
-        foreach (var parameters in product.Parameters)
-        {
-            <p>@parameters.Key - @parameters.Value</p>
-        }
-        <br />
-    }
-}
-
-
 <script>
-    document.getElementById("productForm").onsubmit = function () {
-        var productList = document.getElementsByClassName("product");
-        var parameters = document.getElementById("Parameters");
-
-        for (i = 0; i != productList.length; i++) {
-            if (parameters.classList.contains("range")) {
-                parameters.value += `${productList[i].name}:${productList[i].value}~${productList[i++].value},`
+    document.getElementById("filterForm").onsubmit = function () {
+        let parameters = document.getElementById("Parameters");
+        parameters.value = '';
+        let inputs = document.querySelectorAll("input, textarea");
+        for (let i = 1; i < inputs.length; i++) {
+            if (inputs[i].id === "Parameters" || inputs[i].name === "__RequestVerificationToken" || inputs[i].name === "FilterUpload.CategoryId") {
+                continue; // Skip the AdditionalParameters, __RequestVerificationToken and CategoryId inputs
             }
-            else {
-                parameters.value += `${productList[i].name}:${productList[i].value},`
+            if (inputs[i].classList.contains("range")) {
+                if (inputs[i + 1] && inputs[i + 1].classList.contains("range") && inputs[i + 1].name === inputs[i].name) {
+                    parameters.value += `${inputs[i].name}:${inputs[i].value}~${inputs[i + 1].value},`;
+                    i++; // Skip the next input as it has been processed
+                } else {
+                    parameters.value += `${inputs[i].name}:${inputs[i].value}~,`;
+                }
+            } else {
+                parameters.value += `${inputs[i].name}:${inputs[i].value},`;
             }
         }
+        // Remove the last comma if it exists
+        if (parameters.value.endsWith(',')) {
+            parameters.value = parameters.value.slice(0, -1);
+        }
+        console.log(parameters.value);
     }
 </script>
+

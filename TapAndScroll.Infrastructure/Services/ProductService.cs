@@ -74,11 +74,12 @@ namespace TapAndScroll.Infrastructure.Services
             var products = await _productRepository.GetAllAsync(categoryId);
 
             var filterList = _parametersHelper.CreateListParameters(filter.AdditionalParameters, 0);
+            filterList.RemoveAt(0);
 
             foreach (var parameter in filterList)
             {
                 var middleFilterList = new List<Product>();
-                if (parameter.Value != null)
+                if (parameter.Value != null && parameter.Value.Length > 1)
                 {
                     var targetKey = parameter.Key;
                     var targetValue = parameter.Value;
@@ -91,7 +92,7 @@ namespace TapAndScroll.Infrastructure.Services
                         foreach( var prod in products)
                         {
                             var pr = from p in prod.Parameters
-                                     where p.Key == targetKey && decimal.Parse(p.Value) >= beginValue && decimal.Parse(p.Value) <= endValue
+                                     where p.Key.Contains(targetKey) && decimal.Parse(p.Value) >= beginValue && decimal.Parse(p.Value) <= endValue
                                      select p;
 
                             if (pr.Count() > 0) { middleFilterList.Add(await _productRepository.GetProductByIdAsync(prod.IdProduct)); }
@@ -108,9 +109,10 @@ namespace TapAndScroll.Infrastructure.Services
                             if (pr.Count() > 0) { middleFilterList.Add(await _productRepository.GetProductByIdAsync(prod.IdProduct)); }
                         }
                     }
+                    products = middleFilterList;
                 }
 
-                products = middleFilterList;
+                
             }
 
             return products;

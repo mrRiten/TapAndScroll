@@ -4,6 +4,6 @@ namespace TapAndScroll.Application.HelperContracts
 {
     public interface IParametersHelper
     {
-        public ICollection<AdditionalParameters> CreateListParameters(string input, int productId);
+        public List<AdditionalParameters> CreateListParameters(string input, int productId);
     }
 }
