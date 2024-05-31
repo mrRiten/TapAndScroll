@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapAndScroll.Core;
 
@@ -11,9 +12,11 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    partial class TapAndScrollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240530074718_Param")]
+    partial class Param
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsRange")
-                        .HasColumnType("bit");
 
                     b.Property<string>("NameParameters")
                         .IsRequired()
@@ -313,16 +313,28 @@ namespace TapAndScroll.Web.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
+                    b.Property<float>("DiscountPercent")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsGaming")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("OrderIdOrder")
                         .HasColumnType("int");
 
                     b.Property<int>("Page")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(12, 2)");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.HasKey("IdProduct");
 
