@@ -4,12 +4,12 @@ using TapAndScroll.Core.ViewModels;
 
 namespace TapAndScroll.Web.Controllers
 {
-    public class CatalogController(ICategoryService categoryService, IProductService productService) : Controller
+    public class CatalogController(ICategoryService categoryService, ICatalogService catalogService) : Controller
     {
         private readonly ICategoryService _categoryService = categoryService;
-        public readonly IProductService _productService = productService;
+        private readonly ICatalogService _catalogService = catalogService;
 
-        [HttpGet("Catalog/{idCategory}")]
+        [HttpGet("Catalog/Index/{idCategory}")]
         public async Task<IActionResult> Index(int idCategory)
         {
             var filterModel = new FilterProduct
@@ -21,9 +21,10 @@ namespace TapAndScroll.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> List(FilterProduct filterModel)
+        public async Task<IActionResult> Index(FilterProduct filterModel)
         {
-            filterModel.Products = await _productService.GetProductsByParameters((int)filterModel.FilterUpload.CategoryId, filterModel.FilterUpload);
+            filterModel.Products = await _catalogService.FilterProduct((int)filterModel.FilterUpload.CategoryId, filterModel.FilterUpload);
+            filterModel.Category = await _categoryService.GetCategoryByIdAsync((int)filterModel.FilterUpload.CategoryId);
 
             return View(filterModel);
         }

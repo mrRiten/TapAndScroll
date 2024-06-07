@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace TapAndScroll.Core.Models
 {
     public class Product
     {
         [Key]
-        public int IdProduct {  get; set; }
+        public int IdProduct { get; set; }
 
         [Required]
         [StringLength(128)]
@@ -21,8 +20,6 @@ namespace TapAndScroll.Core.Models
         [StringLength(1024)]
         public string Description { get; set; }
 
-        public int Page { get; set; }
-        
         public ICollection<ImgProduct> Products { get; set; }
 
         public ICollection<AdditionalParameters> Parameters { get; set; }

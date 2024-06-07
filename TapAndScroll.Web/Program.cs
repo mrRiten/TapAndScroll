@@ -41,6 +41,7 @@ builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IConfirmHelper, ConfirmHelper>();
 builder.Services.AddScoped<IParametersHelper, ParametersHelper>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
+builder.Services.AddScoped<IFilterHelper, FilterHelper>();
 
 builder.Services.AddAuthentication(options =>
 {

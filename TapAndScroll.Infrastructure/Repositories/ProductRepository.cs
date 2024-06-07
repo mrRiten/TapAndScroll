@@ -9,11 +9,11 @@ namespace TapAndScroll.Infrastructure.Repositories
     {
         private readonly TapAndScrollDbContext _context = context;
 
-        public async Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId, int page)
+        public async Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId)
         {
             return await _context.Products
                 .Include(p => p.Category)
-                .Where(p => p.CategoryId == categoryId && p.Page == page)
+                .Where(p => p.CategoryId == categoryId)
                 .ToListAsync();
         }
 
@@ -47,6 +47,7 @@ namespace TapAndScroll.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return await _context.Products
+                .OrderByDescending(p => p.IdProduct)
                 .FirstOrDefaultAsync();
         }
 
@@ -71,24 +72,12 @@ namespace TapAndScroll.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> GetCountProductOnPageAsync()
-        {
-            var product = await GetLastProductAsync();
-
-            if (product == null) { return 0; }
-
-            var products = await _context.Products
-                .Where(p => p.Page == product.Page)
-                .ToListAsync();
-
-            return products.Count;
-        }
-
-        public async Task<Product?> GetLastProductAsync()
+        public async Task<Product?> GetLastProductAsync(int categoryId)
         {
             return await _context.Products
                 .OrderByDescending(p => p.IdProduct)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.CategoryId == categoryId);
         }
+
     }
 }
