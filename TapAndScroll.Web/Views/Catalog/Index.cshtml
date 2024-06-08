@@ -12,7 +12,7 @@
                     <input asp-for="@Model.FilterUpload.CategoryId" value="@Model.Category.IdCategory" hidden="hidden" />
                     <div class="mb-3">
                         <label asp-for="@Model.FilterUpload.Brand" class="form-label">Название Бренда</label>
-                        <input name="Brand" class="form-control product">
+                        <input asp-for="@Model.FilterUpload.Brand" name="Brand" class="form-control product">
                     </div>
                     <div class="mb-3">
                         <h3>Цена</h3>
@@ -98,10 +98,9 @@
                 const value = inputs[i].value || '0';
                 parameters.value += `${inputs[i].name}:${value},`;
             }
-        }
-        // Remove the last comma if it exists
-        if (parameters.value.endsWith(',')) {
-            parameters.value = parameters.value.slice(0, -1);
+            else {
+                parameters.value += `${productList[i].name}:${productList[i].value},`;
+            }
         }
         console.log(parameters.value);
     }

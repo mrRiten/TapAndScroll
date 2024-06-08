@@ -14,26 +14,6 @@ namespace TapAndScroll.Web.Migrations
                 name: "AdditionalParameters",
                 table: "Products");
 
-            migrationBuilder.DropColumn(
-                name: "Brand",
-                table: "Products");
-
-            migrationBuilder.DropColumn(
-                name: "DiscountPercent",
-                table: "Products");
-
-            migrationBuilder.DropColumn(
-                name: "IsGaming",
-                table: "Products");
-
-            migrationBuilder.DropColumn(
-                name: "Price",
-                table: "Products");
-
-            migrationBuilder.DropColumn(
-                name: "Rating",
-                table: "Products");
-
             migrationBuilder.CreateTable(
                 name: "AdditionalParameters",
                 columns: table => new
@@ -41,8 +21,8 @@ namespace TapAndScroll.Web.Migrations
                     IdAAdditionalParameters = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,41 +53,6 @@ namespace TapAndScroll.Web.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Brand",
-                table: "Products",
-                type: "nvarchar(128)",
-                maxLength: 128,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<float>(
-                name: "DiscountPercent",
-                table: "Products",
-                type: "real",
-                nullable: false,
-                defaultValue: 0f);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsGaming",
-                table: "Products",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<decimal>(
-                name: "Price",
-                table: "Products",
-                type: "decimal(12,2)",
-                nullable: false,
-                defaultValue: 0m);
-
-            migrationBuilder.AddColumn<float>(
-                name: "Rating",
-                table: "Products",
-                type: "real",
-                nullable: true);
         }
     }
 }

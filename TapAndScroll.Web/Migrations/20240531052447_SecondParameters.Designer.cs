@@ -12,8 +12,8 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    [Migration("20240530185016_Param")]
-    partial class Param
+    [Migration("20240531052447_SecondParameters")]
+    partial class SecondParameters
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsRange")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NameParameters")
                         .IsRequired()
