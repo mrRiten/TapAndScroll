@@ -47,7 +47,7 @@ namespace TapAndScroll.Infrastructure.Services
 
                     if (targetValue.Contains('~'))
                     {
-                        if (!_filterHelper.GetCorrectValue(parameter, out decimal beginValue, out decimal endValue)) { continue; }
+                        if (!_filterHelper.GetCorrectValues(parameter, out decimal beginValue, out decimal endValue)) { continue; }
 
                         foreach (var prod in products)
                         {
@@ -59,6 +59,9 @@ namespace TapAndScroll.Infrastructure.Services
                     }
                     else
                     {
+
+                        targetValue = _filterHelper.GetCorrectValue(parameter);
+
                         foreach (var prod in products)
                         {
                             if (_filterHelper.DoAloneQuery(prod, targetKey, targetValue))

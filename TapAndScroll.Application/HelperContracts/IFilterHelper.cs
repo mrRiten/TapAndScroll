@@ -30,6 +30,8 @@ namespace TapAndScroll.Application.HelperContracts
         /// <param name="beginValue">The extracted beginning value of the range.</param>
         /// <param name="endValue">The extracted end value of the range.</param>
         /// <returns>True if parsing was successful; otherwise, false.</returns>
-        public bool GetCorrectValue(AdditionalParameters parameters, out decimal beginValue, out decimal endValue);
+        public bool GetCorrectValues(AdditionalParameters parameters, out decimal beginValue, out decimal endValue);
+
+        public string GetCorrectValue(AdditionalParameters parameters);
     }
 }

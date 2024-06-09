@@ -7,6 +7,7 @@ namespace TapAndScroll.Application.ServiceContracts
     {
         public Task<ICollection<Product>> GetProductsAsync();
         public Task<Product> GetProductByIdAsync(int id);
+        public Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId);
         public Task<Product> GetProductByNameAsync(string name);
 
         public Task<Product> CreateProductAsync(UploadProduct model);

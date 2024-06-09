@@ -23,3 +23,18 @@ body {
 .navbar-toggler-icon {
     background-color: #fff; /* Белый цвет иконки переключателя */
 }
+
+.card {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.btn {
+    background-color: #00AE68;
+    border: 1px solid #1a1a1a;
+}
+
+    .btn:hover {
+        background-color: #00AE68;
+        border: 1px solid #fff;
+    }

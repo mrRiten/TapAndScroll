@@ -54,6 +54,11 @@ namespace TapAndScroll.Infrastructure.Services
             throw new NotImplementedException();
         }
 
+        public async Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId)
+        {
+            return await _productRepository.GetProductsByCategoryAsync(categoryId);
+        }
+
         public Task UpdateProductAsync(Product model)
         {
             throw new NotImplementedException();

@@ -8,10 +8,10 @@ namespace TapAndScroll.Infrastructure.Helpers
         public bool DoAloneQuery(Product product, string targetKey, string targetValue)
         {
             var pr = from p in product.Parameters
-                     where p.Key == targetKey && p.Value == targetValue
+                     where p.Key.Contains(targetKey) && p.Value == targetValue
                      select p;
 
-            if (pr.Any()) { return true; }
+            if (pr.Count() > 0) { return true; }
             return false;
         }
 
@@ -21,11 +21,26 @@ namespace TapAndScroll.Infrastructure.Helpers
                      where p.Key.Contains(targetKey) && decimal.Parse(p.Value) >= beginValue && decimal.Parse(p.Value) <= endValue
                      select p;
 
-            if (pr.Any()) { return true; }
+            if (pr.Count() > 0) { return true; }
             return false;
         }
 
-        public bool GetCorrectValue(AdditionalParameters parameters, out decimal beginValue, out decimal endValue)
+        public string GetCorrectValue(AdditionalParameters parameters)
+        {
+            var targetValue = parameters.Value;
+            if (parameters.Value == "on")
+            {
+                targetValue = "true";
+            }
+            else if (parameters.Value == "off")
+            {
+                targetValue = "false";
+            }
+
+            return targetValue;
+        }
+
+        public bool GetCorrectValues(AdditionalParameters parameters, out decimal beginValue, out decimal endValue)
         {
             beginValue = decimal.Parse(parameters.Value.Split("~")[0]);
             endValue = decimal.Parse(parameters.Value.Split("~")[1]);
