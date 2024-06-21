@@ -17,7 +17,7 @@ namespace TapAndScroll.Infrastructure.Services
 
         public async Task<CatalogProduct> GetProducts(int categoryId, int page)
         {
-            var products = await _productRepository.GetProductsByCategoryAsync(categoryId);
+            var products = await _productRepository.GetAllAsync(categoryId);
             var currentCategory = await _categoryRepository.GetByIdAsync(categoryId);
 
             var catalogProduct = new CatalogProduct
@@ -59,7 +59,6 @@ namespace TapAndScroll.Infrastructure.Services
                     }
                     else
                     {
-
                         targetValue = _filterHelper.GetCorrectValue(parameter);
 
                         foreach (var prod in products)

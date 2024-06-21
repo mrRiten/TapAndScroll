@@ -1,4 +1,5 @@
-﻿using TapAndScroll.Application.HelperContracts;
+﻿using System.Globalization;
+using TapAndScroll.Application.HelperContracts;
 using TapAndScroll.Core.Models;
 
 namespace TapAndScroll.Infrastructure.Helpers
@@ -18,7 +19,8 @@ namespace TapAndScroll.Infrastructure.Helpers
         public bool DoRangeQuery(Product product, string targetKey, decimal beginValue, decimal endValue)
         {
             var pr = from p in product.Parameters
-                     where p.Key.Contains(targetKey) && decimal.Parse(p.Value) >= beginValue && decimal.Parse(p.Value) <= endValue
+                     where p.Key.Contains(targetKey) && decimal.Parse(p.Value, CultureInfo.InvariantCulture) >= beginValue 
+                     && decimal.Parse(p.Value, CultureInfo.InvariantCulture) <= endValue
                      select p;
 
             if (pr.Count() > 0) { return true; }

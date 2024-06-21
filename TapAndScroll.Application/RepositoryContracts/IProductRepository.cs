@@ -6,8 +6,6 @@ namespace TapAndScroll.Application.RepositoryContracts
     {
         public Task<List<Product>> GetAllAsync(int categoryId);
         public Task<Product?> GetProductByIdAsync(int productId);
-        public Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId);
-        public Task<ICollection<Product>> GetProductsByPropertyAsync(Product product);
 
         public Task<Product?> GetLastProductAsync(int categoryId);
 

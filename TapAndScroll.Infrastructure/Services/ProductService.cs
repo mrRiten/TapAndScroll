@@ -56,7 +56,7 @@ namespace TapAndScroll.Infrastructure.Services
 
         public async Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId)
         {
-            return await _productRepository.GetProductsByCategoryAsync(categoryId);
+            return await _productRepository.GetAllAsync(categoryId);
         }
 
         public Task UpdateProductAsync(Product model)

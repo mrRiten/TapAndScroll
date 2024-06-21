@@ -68,12 +68,12 @@
                             <div class="card">
                                 <div class="row g-0">
                                     <div class="col-md-4 d-flex align-items-center">
-                                        <img src="~/upload/14/1037529095.jpg" class="img-fluid rounded-start" alt="Card title" />
+                                        <img src="~/upload/@product.ImgsProduct.First().ImgPath" class="img-fluid rounded-start" alt="Card title" />
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5 class="card-title">@product.ProductName</h5>
-                                            <h5 class="card-title">@product.Category.CategoryName</h5>
+                                            <h5 class="card-title">@Model.Category.CategoryName</h5>
                                             <p class="card-text">@product.Description</p>
                                             <button type="button" class="btn btn-primary">Добавить в корзину</button>
                                         </div>
@@ -88,20 +88,6 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-@if(Model.Products != null)
-{
-    foreach(var product in Model.Products)
-    {
-        
-    }
-}
 
 
 <script>

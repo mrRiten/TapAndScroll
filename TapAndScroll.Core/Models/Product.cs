@@ -20,7 +20,7 @@ namespace TapAndScroll.Core.Models
         [StringLength(1024)]
         public string Description { get; set; }
 
-        public ICollection<ImgProduct> Products { get; set; }
+        public ICollection<ImgProduct> ImgsProduct { get; set; }
 
         public ICollection<AdditionalParameters> Parameters { get; set; }
 

@@ -35,6 +35,7 @@ namespace TapAndScroll.Infrastructure.Repositories
         {
             return await _context.Products
                 .Include(p => p.Parameters)
+                .Include(p => p.ImgsProduct)
                 .Where(p => p.CategoryId == categoryId)
                 .ToListAsync();
         }

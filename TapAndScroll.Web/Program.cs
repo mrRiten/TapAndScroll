@@ -22,7 +22,7 @@ builder.Services.AddDbContext<TapAndScrollDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("TapAndScroll.Web")),
-        ServiceLifetime.Scoped);
+        ServiceLifetime.Transient);
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
