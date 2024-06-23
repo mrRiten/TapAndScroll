@@ -12,8 +12,8 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    [Migration("20240519172212_CategoryUpdate")]
-    partial class CategoryUpdate
+    [Migration("20240623002246_Param")]
+    partial class Param
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,63 @@ namespace TapAndScroll.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TapAndScroll.Core.Models.AdditionalParameters", b =>
+                {
+                    b.Property<int>("IdAAdditionalParameters")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAAdditionalParameters"));
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("IdAAdditionalParameters");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("AdditionalParameters");
+                });
+
+            modelBuilder.Entity("TapAndScroll.Core.Models.AdditionalParametersCategory", b =>
+                {
+                    b.Property<int>("IdAdditionalParameters")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAdditionalParameters"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsRange")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NameParameters")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SlugParameters")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAdditionalParameters");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("AdditionalParametersCategory");
+                });
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Basket", b =>
                 {
@@ -86,10 +143,6 @@ namespace TapAndScroll.Web.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"));
-
-                    b.Property<string>("AdditionalParameters")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryDescription")
                         .IsRequired()
@@ -252,15 +305,6 @@ namespace TapAndScroll.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
 
-                    b.Property<string>("AdditionalParameters")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -269,28 +313,18 @@ namespace TapAndScroll.Web.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<float>("DiscountPercent")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("IsGaming")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("OrderIdOrder")
                         .HasColumnType("int");
-
-                    b.Property<int>("Page")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(12, 2)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<float?>("Rating")
-                        .HasColumnType("real");
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.HasKey("IdProduct");
 
@@ -363,6 +397,28 @@ namespace TapAndScroll.Web.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TapAndScroll.Core.Models.AdditionalParameters", b =>
+                {
+                    b.HasOne("TapAndScroll.Core.Models.Product", "Product")
+                        .WithMany("Parameters")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TapAndScroll.Core.Models.AdditionalParametersCategory", b =>
+                {
+                    b.HasOne("TapAndScroll.Core.Models.Category", "Category")
+                        .WithMany("AdditionalParametersCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Basket", b =>
@@ -448,7 +504,7 @@ namespace TapAndScroll.Web.Migrations
             modelBuilder.Entity("TapAndScroll.Core.Models.ImgProduct", b =>
                 {
                     b.HasOne("TapAndScroll.Core.Models.Product", null)
-                        .WithMany("Products")
+                        .WithMany("ImgsProduct")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -521,6 +577,8 @@ namespace TapAndScroll.Web.Migrations
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Category", b =>
                 {
+                    b.Navigation("AdditionalParametersCategory");
+
                     b.Navigation("Products");
                 });
 
@@ -539,9 +597,11 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Navigation("Feedbacks");
 
+                    b.Navigation("ImgsProduct");
+
                     b.Navigation("Order");
 
-                    b.Navigation("Products");
+                    b.Navigation("Parameters");
                 });
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Role", b =>

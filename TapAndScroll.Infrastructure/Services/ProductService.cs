@@ -3,6 +3,7 @@ using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
+using TapAndScroll.Core.ViewModels;
 using TapAndScroll.Infrastructure.Repositories;
 
 namespace TapAndScroll.Infrastructure.Services
@@ -49,12 +50,17 @@ namespace TapAndScroll.Infrastructure.Services
             throw new NotImplementedException();
         }
 
+        public async Task<Product?> GetProductBySlugAsync(string slug)
+        {
+            return await _productRepository.GetProductBySlug(slug);
+        }
+
         public Task<ICollection<Product>> GetProductsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<Product>> GetProductsByCategoryAsync(int categoryId)
+        public async Task<ICollection<ProductDTO>> GetProductsByCategoryAsync(int categoryId)
         {
             return await _productRepository.GetAllAsync(categoryId);
         }

@@ -14,6 +14,6 @@ namespace TapAndScroll.Application.ServiceContracts
         /// <param name="filter">The filter criteria to apply, including additional parameters for filtering.</param>
         /// <returns>A collection of products that match the filter criteria.</returns>
         /// <exception cref="FormatException">Thrown if the input string for range filtering is not in the correct format.</exception>
-        public Task<ICollection<Product>> FilterProduct(int categoryId, FilterUpload filter);
+        public Task<ICollection<ProductDTO>> FilterProduct(int categoryId, FilterUpload filter);
     }
 }

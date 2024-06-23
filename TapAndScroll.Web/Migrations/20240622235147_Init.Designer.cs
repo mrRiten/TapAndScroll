@@ -12,8 +12,8 @@ using TapAndScroll.Core;
 namespace TapAndScroll.Web.Migrations
 {
     [DbContext(typeof(TapAndScrollDbContext))]
-    [Migration("20240531052447_SecondParameters")]
-    partial class SecondParameters
+    [Migration("20240622235147_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -316,13 +316,15 @@ namespace TapAndScroll.Web.Migrations
                     b.Property<int?>("OrderIdOrder")
                         .HasColumnType("int");
 
-                    b.Property<int>("Page")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.HasKey("IdProduct");
 
@@ -502,7 +504,7 @@ namespace TapAndScroll.Web.Migrations
             modelBuilder.Entity("TapAndScroll.Core.Models.ImgProduct", b =>
                 {
                     b.HasOne("TapAndScroll.Core.Models.Product", null)
-                        .WithMany("Products")
+                        .WithMany("ImgsProduct")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -595,11 +597,11 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Navigation("Feedbacks");
 
+                    b.Navigation("ImgsProduct");
+
                     b.Navigation("Order");
 
                     b.Navigation("Parameters");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Role", b =>

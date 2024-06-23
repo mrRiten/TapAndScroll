@@ -6,7 +6,7 @@ namespace TapAndScroll.Core.ViewModels
     {
         public Category Category { get; set; }
 
-        public ICollection<Product> Products { get; set;}
+        public ICollection<ProductDTO> Products { get; set;}
 
     }
 }

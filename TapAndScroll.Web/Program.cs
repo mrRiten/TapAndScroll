@@ -75,6 +75,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             {
                 context.HandleResponse();
                 context.Response.Redirect("/Authorize/Login");
+
                 return Task.CompletedTask;
             },
         };

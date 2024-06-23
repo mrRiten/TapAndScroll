@@ -68,13 +68,13 @@
                             <div class="card">
                                 <div class="row g-0">
                                     <div class="col-md-4 d-flex align-items-center">
-                                        <img src="~/upload/@product.ImgsProduct.First().ImgPath" class="img-fluid rounded-start" alt="Card title" />
+                                        <img src="~/upload/@product.Product.ImgsProduct.First().ImgPath" class="img-fluid rounded-start" alt="Card title" />
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">@product.ProductName</h5>
-                                            <h5 class="card-title">@Model.Category.CategoryName</h5>
-                                            <p class="card-text">@product.Description</p>
+                                            <a href="@Url.Action("Product", "Catalog", new {slugProduct = product.Product.Slug})"><h5 class="card-title">@product.Product.ProductName</h5></a>
+                                            <p class="card-text">@product.Product.Description</p>
+                                            <p class="card-text">Цена: @product.Price ₽</p>
                                             <button type="button" class="btn btn-primary">Добавить в корзину</button>
                                         </div>
                                     </div>

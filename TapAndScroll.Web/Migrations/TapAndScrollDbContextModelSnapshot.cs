@@ -318,6 +318,11 @@ namespace TapAndScroll.Web.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
                     b.HasKey("IdProduct");
 
                     b.HasIndex("CategoryId");
@@ -496,7 +501,7 @@ namespace TapAndScroll.Web.Migrations
             modelBuilder.Entity("TapAndScroll.Core.Models.ImgProduct", b =>
                 {
                     b.HasOne("TapAndScroll.Core.Models.Product", null)
-                        .WithMany("Products")
+                        .WithMany("ImgsProduct")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -589,11 +594,11 @@ namespace TapAndScroll.Web.Migrations
 
                     b.Navigation("Feedbacks");
 
+                    b.Navigation("ImgsProduct");
+
                     b.Navigation("Order");
 
                     b.Navigation("Parameters");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TapAndScroll.Core.Models.Role", b =>

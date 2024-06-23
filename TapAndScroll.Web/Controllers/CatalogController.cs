@@ -17,7 +17,7 @@ namespace TapAndScroll.Web.Controllers
         public async Task<IActionResult> Index(int idCategory)
         {
             Task<Category> category = _categoryService.GetCategoryByIdAsync(idCategory);
-            Task<ICollection<Product>> products = _productService.GetProductsByCategoryAsync(idCategory);
+            Task<ICollection<ProductDTO>> products = _productService.GetProductsByCategoryAsync(idCategory);
 
             var filterModel = new FilterProduct
             {
@@ -31,13 +31,21 @@ namespace TapAndScroll.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(FilterProduct filterModel)
         {
-            Task<ICollection<Product>> products = _catalogService.FilterProduct((int)filterModel.FilterUpload.CategoryId, filterModel.FilterUpload);
+            Task<ICollection<ProductDTO>> products = _catalogService.FilterProduct((int)filterModel.FilterUpload.CategoryId, filterModel.FilterUpload);
             Task<Category> category = _categoryService.GetCategoryByIdAsync((int)filterModel.FilterUpload.CategoryId);
 
             filterModel.Products = await products;
             filterModel.Category = await category;
 
             return View(filterModel);
+        }
+
+        [HttpGet("Catalog/Product/{slugProduct}")]
+        public async Task<IActionResult> Product(string slugProduct)
+        {
+            var product = await _productService.GetProductBySlugAsync(slugProduct);
+
+            return View(product);
         }
     }
 }

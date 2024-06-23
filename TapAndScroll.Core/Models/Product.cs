@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TapAndScroll.Core.Models
 {
@@ -19,6 +20,10 @@ namespace TapAndScroll.Core.Models
         [Required]
         [StringLength(1024)]
         public string Description { get; set; }
+
+        [Required]
+        [StringLength(1024)]
+        public string Slug { get; set; }
 
         public ICollection<ImgProduct> ImgsProduct { get; set; }
 

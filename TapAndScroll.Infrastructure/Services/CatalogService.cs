@@ -30,16 +30,16 @@ namespace TapAndScroll.Infrastructure.Services
         }
 
         //Fix: Region locale for parse "." or ","
-        public async Task<ICollection<Product>> FilterProduct(int categoryId, FilterUpload filter)
+        public async Task<ICollection<ProductDTO>> FilterProduct(int categoryId, FilterUpload filter)
         {
             var products = await _productRepository.GetAllAsync(categoryId);
-
             var filterList = _parametersHelper.CreateListParameters(filter.AdditionalParameters, 0);
+            
             filterList.RemoveAt(0); // Delete ASP.Net Core spec parameters
 
             foreach (var parameter in filterList)
             {
-                var middleFilterList = new List<Product>();
+                var middleFilterList = new List<ProductDTO>();
                 if (parameter.Value != null && parameter.Value.Length > 1)
                 {
                     var targetKey = parameter.Key;
@@ -51,7 +51,7 @@ namespace TapAndScroll.Infrastructure.Services
 
                         foreach (var prod in products)
                         {
-                            if (_filterHelper.DoRangeQuery(prod, targetKey, beginValue, endValue))
+                            if (_filterHelper.DoRangeQuery(prod.Product, targetKey, beginValue, endValue))
                             {
                                 middleFilterList.Add(prod);
                             }
@@ -63,7 +63,7 @@ namespace TapAndScroll.Infrastructure.Services
 
                         foreach (var prod in products)
                         {
-                            if (_filterHelper.DoAloneQuery(prod, targetKey, targetValue))
+                            if (_filterHelper.DoAloneQuery(prod.Product, targetKey, targetValue))
                             {
                                 middleFilterList.Add(prod);
                             }

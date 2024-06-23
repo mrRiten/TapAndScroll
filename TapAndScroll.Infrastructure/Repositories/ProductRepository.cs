@@ -2,6 +2,8 @@
 using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Core;
 using TapAndScroll.Core.Models;
+using TapAndScroll.Core.ViewModels;
+using SlugGenerator;
 
 namespace TapAndScroll.Infrastructure.Repositories
 {
@@ -31,17 +33,24 @@ namespace TapAndScroll.Infrastructure.Repositories
             return products;
         }
 
-        public async Task<List<Product>> GetAllAsync(int categoryId)
+        public async Task<List<ProductDTO>> GetAllAsync(int categoryId)
         {
             return await _context.Products
                 .Include(p => p.Parameters)
                 .Include(p => p.ImgsProduct)
                 .Where(p => p.CategoryId == categoryId)
+                .Select(p => new ProductDTO
+                {
+                    Price = p.Parameters.FirstOrDefault(param => param.Key == "UploadProduct.Price").Value,
+                    Product = p
+                })
                 .ToListAsync();
         }
 
         public async Task<Product> CreateAsync(Product product)
         {
+            product.Slug = product.ProductName.GenerateSlug();
+
             await _context.Products
                 .AddAsync(product);
 
@@ -80,5 +89,13 @@ namespace TapAndScroll.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.CategoryId == categoryId);
         }
 
+        public async Task<Product?> GetProductBySlug(string slug)
+        {
+            return await _context.Products
+                .Include(p => p.Parameters)
+                .Include(p => p.ImgsProduct)
+                .Include(p => p.Feedbacks)
+                .FirstOrDefaultAsync(p => p.Slug == slug);
+        }
     }
 }
