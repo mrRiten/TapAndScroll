@@ -35,14 +35,14 @@ namespace TapAndScroll.Infrastructure.Services
             return await _productRepository.GetLastProductAsync(product.CategoryId);
         }
 
-        public Task DeleteProductAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
-            throw new NotImplementedException();
+            await _productRepository.DeleteAsync(id);
         }
 
-        public Task<Product> GetProductByIdAsync(int id)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _productRepository.GetProductByIdAsync(id);
         }
 
         public Task<Product> GetProductByNameAsync(string name)

@@ -27,8 +27,15 @@
                             Товары
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                            <li><a class="dropdown-item" href="#">Посмотреть все</a></li>
-                            <li><a class="dropdown-item" href="#">Изменить</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">Посмотреть все</a>
+                                <ul class="dropdown-menu">
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("ProductList", "Admin", new {categoryId = category.IdCategory})">@category.CategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">Добавить</a>
                                 <ul class="dropdown-menu">
@@ -38,7 +45,6 @@
                                     }
                                 </ul>
                             </li>
-                            <li><a class="dropdown-item" href="#">Удалить</a></li>
                         </ul>
                     </li>
                 </ul>

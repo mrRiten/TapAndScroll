@@ -8,6 +8,6 @@
     <div>
         <h3>@product.Product.ProductName</h3>
         <a href="@Url.Action("EditProduct", "Admin" , new {slug = product.Product.Slug})">Edit</a>
-        <a>Delete</a>
+        <a href="@Url.Action("DeleteProduct", "Admin" , new {productId = product.Product.IdProduct})">Delete</a>
     </div>
 }

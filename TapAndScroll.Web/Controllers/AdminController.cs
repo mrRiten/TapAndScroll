@@ -57,8 +57,9 @@ namespace TapAndScroll.Web.Controllers
         {
             model.UploadProduct.CategoryId = id;
             var newProduct = await _productService.CreateProductAsync(model.UploadProduct);
+
             await _imageProductService.CreateImageProductAsync(newProduct.IdProduct, model.UploadProduct.ProductImg);
-            ImageSaveWebHelper.SaveImages(newProduct.IdProduct, model.UploadProduct.ProductImg, _webHostEnvironment);
+            ImageWebHelper.SaveImages(newProduct.IdProduct, model.UploadProduct.ProductImg, _webHostEnvironment);
 
             return RedirectToAction("Index", "Admin");
         }
@@ -83,6 +84,16 @@ namespace TapAndScroll.Web.Controllers
         public async Task<IActionResult> EditProduct(Product product)
         {
             await _productService.UpdateProductAsync(product);
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct(int productId)
+        {
+            await _productService.DeleteProductAsync(productId);
+
+            ImageWebHelper.DeleteImages(productId, _webHostEnvironment);
 
             return RedirectToAction("Index", "Admin");
         }
