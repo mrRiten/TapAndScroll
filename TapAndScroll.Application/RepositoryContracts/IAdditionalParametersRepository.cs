@@ -7,6 +7,8 @@ namespace TapAndScroll.Infrastructure.Repositories
         public Task CreateAsync(AdditionalParameters[] additionalParameters);
         public Task UpdateAsync(AdditionalParameters[] additionalParameters);
         public Task DeleteAsync(int id);
+
         public Task<ICollection<AdditionalParameters>> GetAll(int categoryId);
+        public Task<ICollection<AdditionalParameters>> GetByProductId(int productId);
     }
 }

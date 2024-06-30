@@ -29,7 +29,6 @@ namespace TapAndScroll.Infrastructure.Services
             return catalogProduct;
         }
 
-        //Fix: Region locale for parse "." or ","
         public async Task<ICollection<ProductDTO>> FilterProduct(int categoryId, FilterUpload filter)
         {
             var products = await _productRepository.GetAllAsync(categoryId);

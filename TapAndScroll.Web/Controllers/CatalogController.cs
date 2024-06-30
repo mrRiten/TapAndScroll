@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.ViewModels;
@@ -12,6 +13,14 @@ namespace TapAndScroll.Web.Controllers
         private readonly ICatalogService _catalogService = catalogService;
         private readonly IProductService _productService = productService;
 
+        [HttpGet("Catalog/Index")]
+        public async Task<IActionResult> Categories()
+        {
+            var categories = await _categoryService.GetCategoriesAsync();
+
+
+            return View(categories);
+        }
 
         [HttpGet("Catalog/Index/{idCategory}")]
         public async Task<IActionResult> Index(int idCategory)

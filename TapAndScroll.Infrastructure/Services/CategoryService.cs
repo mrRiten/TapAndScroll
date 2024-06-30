@@ -11,6 +11,7 @@ namespace TapAndScroll.Infrastructure.Services
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IAdditionalParametersCategoryRepository _parametersRepository = parametersRepository;
 
+        // ToDo: Add mark for range-parameter
         public async Task CreateCategoryAsync(UploadCategory model)
         {
             var category = new Category

@@ -37,9 +37,17 @@ namespace TapAndScroll.Infrastructure.Repositories
         public async Task<ICollection<AdditionalParameters>> GetAll(int categoryId)
         {
             return await _context.AdditionalParameters
+                .Include(ap => ap.Product)
                 .Where(ap => ap.Product.CategoryId == categoryId)
                 .ToListAsync();
         }
 
+        public async Task<ICollection<AdditionalParameters>> GetByProductId(int productId)
+        {
+            return await _context.AdditionalParameters
+                .AsNoTracking()
+                .Where(ap => ap.ProductId == productId)
+                .ToListAsync();
+        }
     }
 }

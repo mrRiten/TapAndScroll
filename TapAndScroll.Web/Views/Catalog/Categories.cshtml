@@ -1,0 +1,9 @@
+﻿@{
+}
+
+@model ICollection<TapAndScroll.Core.Models.Category>;
+
+@foreach (var category in Model)
+{
+    <a href="@Url.Action("Index", "Catalog" , new {idCategory = category.IdCategory})"><h1>@category.CategoryName</h1></a>
+}

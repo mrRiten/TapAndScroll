@@ -25,6 +25,9 @@ namespace TapAndScroll.Core.Models
         [StringLength(1024)]
         public string Slug { get; set; }
 
+        [NotMapped]
+        public string AdditionalParameters { get; set; }
+
         public ICollection<ImgProduct> ImgsProduct { get; set; }
 
         public ICollection<AdditionalParameters> Parameters { get; set; }

@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TapAndScroll.Application.RepositoryContracts;
 using TapAndScroll.Application.ServiceContracts;
+using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
 using TapAndScroll.Core.ViewModels;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http.Extensions;
-using Newtonsoft.Json.Linq;
 using TapAndScroll.Web.WebHelpers;
 
 namespace TapAndScroll.Web.Controllers
@@ -31,7 +28,7 @@ namespace TapAndScroll.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddCategory()
+        public IActionResult AddCategory()
         {
             return View();
         }
@@ -66,5 +63,28 @@ namespace TapAndScroll.Web.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        [HttpGet("Admin/ProductList/{categoryId}")]
+        public async Task<IActionResult> ProductList(int categoryId)
+        {
+            var products = await _productService.GetProductsByCategoryAsync(categoryId);
+
+            return View(products);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(string slug)
+        {
+            var product = await _productService.GetProductBySlugAsync(slug);
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(Product product)
+        {
+            await _productService.UpdateProductAsync(product);
+
+            return RedirectToAction("Index", "Admin");
+        }
     }
 }

@@ -65,9 +65,26 @@ namespace TapAndScroll.Infrastructure.Services
             return await _productRepository.GetAllAsync(categoryId);
         }
 
-        public Task UpdateProductAsync(Product model)
+        public async Task UpdateProductAsync(Product model)
         {
-            throw new NotImplementedException();
+            await _productRepository.UpdateAsync(model);
+
+            var sourceParameters = await _additionalParametersRepository.GetByProductId(model.IdProduct);
+            var editParameters = _parametersHelper.CreateListParameters(model.AdditionalParameters, model.IdProduct);
+
+            // Сопоставление объектов на основе `Key` и копирование `IdAAdditionalParameters`
+            foreach (var editParam in editParameters)
+            {
+                var sourceParam = sourceParameters.FirstOrDefault(sp => sp.Key == editParam.Key);
+                if (sourceParam != null)
+                {
+                    editParam.IdAAdditionalParameters = sourceParam.IdAAdditionalParameters;
+                }
+            }
+
+            await _additionalParametersRepository.UpdateAsync([.. editParameters]);
+
+
         }
     }
 }
