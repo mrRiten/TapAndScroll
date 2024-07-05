@@ -28,7 +28,7 @@ namespace TapAndScroll.Infrastructure.Services
             {
                 var isRange = false;
                 var nameParameter = parameter;
-                if (parameter.Contains('-'))
+                if (parameter.Contains('~'))
                 {
                     isRange = true;
                     nameParameter = parameter.Remove(parameter.Length - 1);

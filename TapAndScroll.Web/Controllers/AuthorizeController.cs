@@ -21,8 +21,8 @@ namespace TapAndScroll.Web.Controllers
             var token = await _authorizeService.AuthorizeAsync(model);
 
             HttpContext.Response.Cookies.Append("tasty-cookies", token);
-
-            return RedirectToAction("Index", "Home");
+            
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
