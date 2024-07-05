@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using TapAndScroll.Application.ServiceContracts;
 using TapAndScroll.Core.Models;
 using TapAndScroll.Core.UploadModels;
@@ -42,6 +43,23 @@ namespace TapAndScroll.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> EditCategory(int categoryId)
+        {
+            var category = await _categoryService.GetCategoryByIdAsync(categoryId);
+
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(Category category)
+        {
+            await _categoryService.UpdateCategoryAsync(category);
+
+            return RedirectToAction("Index", "Admin");
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> CategoryList()
         {
             var categories = await _categoryService.GetCategoriesAsync();
@@ -52,12 +70,10 @@ namespace TapAndScroll.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteCategory(int categoryId)
         {
-            Task<ICollection<ProductDTO>> productsTask = _productService.GetProductsByCategoryAsync(categoryId);
-            Task categoryTask = _categoryService.DeleteCategoryAsync(categoryId);
+            var products = await _productService.GetProductsByCategoryAsync(categoryId);
+            await _categoryService.DeleteCategoryAsync(categoryId);
 
-            await Task.WhenAll(productsTask, categoryTask);
-
-            foreach (var productDTO in await productsTask)
+            foreach (var productDTO in  products)
             {
                 ImageWebHelper.DeleteImages(productDTO.Product.IdProduct, _webHostEnvironment);
             }
