@@ -1,0 +1,13 @@
+﻿@{
+}
+
+@model ICollection<TapAndScroll.Core.Models.Category>;
+
+@foreach (var category in Model)
+{
+    <div>
+        <h3>@category.CategoryName</h3>
+        <a href="@Url.Action("EditCategory", "Admin" , new {categoryId = category.IdCategory})">Edit</a>
+        <a href="@Url.Action("DeleteCategory", "Admin" , new {categoryId = category.IdCategory})">Delete</a>
+    </div>
+}

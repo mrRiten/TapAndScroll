@@ -41,6 +41,30 @@ namespace TapAndScroll.Web.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CategoryList()
+        {
+            var categories = await _categoryService.GetCategoriesAsync();
+
+            return View(categories);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int categoryId)
+        {
+            Task<ICollection<ProductDTO>> productsTask = _productService.GetProductsByCategoryAsync(categoryId);
+            Task categoryTask = _categoryService.DeleteCategoryAsync(categoryId);
+
+            await Task.WhenAll(productsTask, categoryTask);
+
+            foreach (var productDTO in await productsTask)
+            {
+                ImageWebHelper.DeleteImages(productDTO.Product.IdProduct, _webHostEnvironment);
+            }
+
+            return RedirectToAction("Index", "Admin");
+        }
+
         [HttpGet("Admin/AddProduct/{categoryId}")]
         public async Task<IActionResult> AddProduct(int categoryId)
         {

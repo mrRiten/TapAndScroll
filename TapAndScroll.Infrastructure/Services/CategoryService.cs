@@ -11,7 +11,6 @@ namespace TapAndScroll.Infrastructure.Services
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IAdditionalParametersCategoryRepository _parametersRepository = parametersRepository;
 
-        // ToDo: Add mark for range-parameter
         public async Task CreateCategoryAsync(UploadCategory model)
         {
             var category = new Category
@@ -27,11 +26,20 @@ namespace TapAndScroll.Infrastructure.Services
 
             foreach (var parameter in parameters)
             {
+                var isRange = false;
+                var nameParameter = parameter;
+                if (parameter.Contains('-'))
+                {
+                    isRange = true;
+                    nameParameter = parameter.Remove(parameter.Length - 1);
+                }
+
                 additionalParametersList.Add(new AdditionalParametersCategory 
                 { 
-                    CategoryId = categoryNew.IdCategory, 
-                    NameParameters = parameter,
-                    SlugParameters = parameter.GenerateSlug(),
+                    CategoryId = categoryNew.IdCategory,
+                    NameParameters = nameParameter,
+                    SlugParameters = nameParameter.GenerateSlug(),
+                    IsRange = isRange
                 });
             }
 
